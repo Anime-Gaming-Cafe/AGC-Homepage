@@ -15,7 +15,6 @@ import {
   type SiteCache,
   type TeamMemberView,
 } from "@/lib/discord/views";
-import { getDefaultPartners, resolvePartnerLogos } from "@/lib/discord/partners";
 import {
   getPageDescription,
   getPageInformation,
@@ -46,7 +45,6 @@ function createEmptyCache(): SiteCache {
     events: [],
     hasUpcomingEvent: false,
     team: [],
-    partners: getDefaultPartners(),
   };
 }
 
@@ -230,11 +228,6 @@ async function refresh(): Promise<void> {
     await refreshTeam();
   } catch (error) {
     console.error("[refresh] Team failed:", error);
-  }
-  try {
-    await resolvePartnerLogos(cache.partners);
-  } catch (error) {
-    console.error("[refresh] Partner logos failed:", error);
   }
   try {
     await refreshEvents();

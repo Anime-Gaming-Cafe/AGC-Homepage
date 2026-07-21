@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { getSnapshot } from "@/lib/discord/cache";
-import { getTeamProfiles, type TeamProfile } from "@/lib/db";
+import { getPartners, getTeamProfiles, type TeamProfile } from "@/lib/db";
+import { resolvePartnerLogos } from "@/lib/discord/partners";
+import type { PartnerView } from "@/lib/discord/views";
 import { CANONICAL_URL } from "@/lib/constants";
 import { DrawerProvider } from "@/components/layout/DrawerProvider";
 import { OffCanvasNav } from "@/components/layout/OffCanvasNav";
@@ -84,6 +86,13 @@ export default async function HomePage() {
     profiles = new Map();
   }
 
+  let partners: PartnerView[] = [];
+  try {
+    partners = await resolvePartnerLogos(await getPartners());
+  } catch (error) {
+    console.error("[page] Partners query failed:", error);
+  }
+
   return (
     <DrawerProvider>
       <JsonLd iconUrl={guild.iconUrl} description={cache.db.pageDescription} />
@@ -110,7 +119,7 @@ export default async function HomePage() {
         todayMessages={cache.db.todayMessages}
         todayJoins={cache.db.todayJoins}
       />
-      <PartnersSection partners={cache.partners} />
+      <PartnersSection partners={partners} />
       <TeamSection team={cache.team} profiles={profiles} />
       <Footer vanityCode={guild.vanityCode} />
     </DrawerProvider>

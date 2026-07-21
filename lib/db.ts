@@ -41,6 +41,14 @@ export async function getPageInformation(): Promise<string | null> {
   return queryScalar<string>("SELECT information FROM pageinformation");
 }
 
+export async function updatePageDescription(text: string): Promise<void> {
+  await getPool().query("UPDATE pagedescription SET description = $1", [text]);
+}
+
+export async function updatePageInformation(text: string): Promise<void> {
+  await getPool().query("UPDATE pageinformation SET information = $1", [text]);
+}
+
 export async function getTotalMessages(): Promise<string | null> {
   return queryScalar<string>("SELECT count FROM msgs");
 }
@@ -108,4 +116,120 @@ export async function upsertTeamProfile(
       [dbId, frontDesc, backDesc]
     );
   }
+}
+
+export interface PartnerRecord {
+  id: number;
+  name: string;
+  url: string;
+  logoUrl: string;
+  tagline: string;
+  description: string;
+  discordInviteCode: string | null;
+  sortOrder: number;
+}
+
+export interface PartnerInput {
+  name: string;
+  url: string;
+  logoUrl: string;
+  tagline: string;
+  description: string;
+  discordInviteCode: string | null;
+}
+
+function mapPartnerRow(row: {
+  id: number;
+  name: string;
+  url: string;
+  logo_url: string;
+  tagline: string;
+  description: string;
+  discord_invite_code: string | null;
+  sort_order: number;
+}): PartnerRecord {
+  return {
+    id: row.id,
+    name: row.name,
+    url: row.url,
+    logoUrl: row.logo_url,
+    tagline: row.tagline,
+    description: row.description,
+    discordInviteCode: row.discord_invite_code,
+    sortOrder: row.sort_order,
+  };
+}
+
+export async function getPartners(): Promise<PartnerRecord[]> {
+  const result = await getPool().query(
+    "SELECT id, name, url, logo_url, tagline, description, discord_invite_code, sort_order FROM partners ORDER BY sort_order ASC, id ASC"
+  );
+  return result.rows.map(mapPartnerRow);
+}
+
+export async function createPartner(input: PartnerInput): Promise<void> {
+  const pool = getPool();
+  const maxOrder = await pool.query(
+    "SELECT COALESCE(MAX(sort_order), 0) AS max FROM partners"
+  );
+  const nextOrder = Number(maxOrder.rows[0].max) + 10;
+  await pool.query(
+    `INSERT INTO partners (name, url, logo_url, tagline, description, discord_invite_code, sort_order)
+     VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+    [
+      input.name,
+      input.url,
+      input.logoUrl,
+      input.tagline,
+      input.description,
+      input.discordInviteCode,
+      nextOrder,
+    ]
+  );
+}
+
+export async function updatePartner(
+  id: number,
+  input: PartnerInput
+): Promise<void> {
+  await getPool().query(
+    `UPDATE partners
+     SET name = $2, url = $3, logo_url = $4, tagline = $5, description = $6, discord_invite_code = $7
+     WHERE id = $1`,
+    [
+      id,
+      input.name,
+      input.url,
+      input.logoUrl,
+      input.tagline,
+      input.description,
+      input.discordInviteCode,
+    ]
+  );
+}
+
+export async function deletePartner(id: number): Promise<void> {
+  await getPool().query("DELETE FROM partners WHERE id = $1", [id]);
+}
+
+export async function movePartner(
+  id: number,
+  direction: "up" | "down"
+): Promise<void> {
+  const pool = getPool();
+  const partners = await getPartners();
+  const index = partners.findIndex((p) => p.id === id);
+  const swapWith = direction === "up" ? index - 1 : index + 1;
+  if (index === -1 || swapWith < 0 || swapWith >= partners.length) return;
+
+  const a = partners[index];
+  const b = partners[swapWith];
+  await pool.query("UPDATE partners SET sort_order = $2 WHERE id = $1", [
+    a.id,
+    b.sortOrder,
+  ]);
+  await pool.query("UPDATE partners SET sort_order = $2 WHERE id = $1", [
+    b.id,
+    a.sortOrder,
+  ]);
 }

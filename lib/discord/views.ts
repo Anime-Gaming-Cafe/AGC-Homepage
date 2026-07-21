@@ -34,7 +34,7 @@ export interface PartnerView {
   logoUrl: string;
   tagline: string;
   description: string;
-  discordInviteCode?: string;
+  discordInviteCode: string | null;
 }
 
 export interface SiteCache {
@@ -50,7 +50,6 @@ export interface SiteCache {
   events: EventView[];
   hasUpcomingEvent: boolean;
   team: TeamMemberView[];
-  partners: PartnerView[];
 }
 
 const berlinFormat = new Intl.DateTimeFormat("de-DE", {

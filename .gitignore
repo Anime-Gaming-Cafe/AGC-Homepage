@@ -37,6 +37,9 @@ yarn-error.log*
 # vercel
 .vercel
 
+# local-only DB export/seed, contains real prod data, never commit
+/migrations/seed-data
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
