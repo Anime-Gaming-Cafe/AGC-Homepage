@@ -5,6 +5,8 @@ RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
 COPY package.json bun.lock ./
+COPY prisma ./prisma
+COPY prisma.config.ts ./prisma.config.ts
 RUN bun install --frozen-lockfile
 
 FROM base AS builder
