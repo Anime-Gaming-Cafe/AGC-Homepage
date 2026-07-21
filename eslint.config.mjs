@@ -11,7 +11,13 @@ const eslintConfig = defineConfig([
       "@next/next/no-css-tags": "off",
     },
   },
-  globalIgnores([".next/**", "out/**", "build/**", "next-env.d.ts"]),
+  globalIgnores([
+    ".next/**",
+    "out/**",
+    "build/**",
+    "next-env.d.ts",
+    "lib/generated/**",
+  ]),
 ]);
 
 export default eslintConfig;

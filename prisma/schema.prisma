@@ -1,0 +1,64 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model PageDescription {
+  id          Int    @id @default(1)
+  description String @default("")
+
+  @@map("pagedescription")
+}
+
+model PageInformation {
+  id          Int    @id @default(1)
+  information String @default("")
+
+  @@map("pageinformation")
+}
+
+model TeamProfile {
+  userId    BigInt  @id @map("userid")
+  frontDesc String? @map("frontdesc") @db.VarChar(50)
+  backDesc  String? @map("backdesc") @db.VarChar(500)
+
+  @@map("teamprofile")
+}
+
+model Msgs {
+  id    Int    @id @default(1)
+  count BigInt @default(0)
+
+  @@map("msgs")
+}
+
+model TodayMsgs {
+  id    Int    @id @default(1)
+  count BigInt @default(0)
+
+  @@map("todaymsgs")
+}
+
+model TodayJoins {
+  id    Int    @id @default(1)
+  count BigInt @default(0)
+
+  @@map("todayjoins")
+}
+
+model Partner {
+  id                Int     @id @default(autoincrement())
+  name              String
+  url               String
+  logoUrl           String  @default("") @map("logo_url")
+  tagline           String  @default("")
+  description       String  @default("")
+  discordInviteCode String? @map("discord_invite_code")
+  sortOrder         Int     @default(0) @map("sort_order")
+
+  @@map("partners")
+}

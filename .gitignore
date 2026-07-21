@@ -38,8 +38,10 @@ yarn-error.log*
 .vercel
 
 # local-only DB export/seed, contains real prod data, never commit
-/migrations/seed-data
+/local-seed-data
 
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+/lib/generated/prisma
