@@ -21,37 +21,47 @@ export function Footer({ vanityCode }: FooterProps) {
         </ul>
         <ul className="list-inline">
           <li className="list-inline-item me-4">
-            <a href={`https://discord.gg/${vanityCode}`} target="_blank">
+            <a
+              href={`https://discord.gg/${vanityCode}`}
+              target="_blank"
+              rel="noopener"
+              aria-label="Discord"
+            >
               <i
                 className="fab fa-discord"
-                title="Discord"
+                aria-hidden="true"
                 style={{ fontSize: "21px" }}
               ></i>
             </a>
           </li>
           <li className="list-inline-item me-4">
-            <a href="https://www.instagram.com/animegamingcafe/" target="_blank">
+            <a
+              href="https://www.instagram.com/animegamingcafe/"
+              target="_blank"
+              rel="noopener"
+              aria-label="Instagram"
+            >
               <i
                 className="fab fa-instagram"
-                title="Instagram"
+                aria-hidden="true"
                 style={{ fontSize: "20px" }}
               ></i>
             </a>
           </li>
           <li className="list-inline-item me-4">
-            <a href="mailto:info@animegamingcafe.de">
+            <a href="mailto:info@animegamingcafe.de" aria-label="Kontakt">
               <i
                 className="fas fa-envelope-open-text"
-                title="Kontakt"
+                aria-hidden="true"
                 style={{ fontSize: "20px" }}
               ></i>
             </a>
           </li>
           <li className="list-inline-item">
-            <a href="https://animegamingcafe.de/impressum">
+            <a href="https://animegamingcafe.de/impressum" aria-label="Impressum">
               <i
                 className="fas fa-book"
-                title="Impressum"
+                aria-hidden="true"
                 style={{ fontSize: "20px" }}
               ></i>
             </a>

@@ -39,6 +39,7 @@ function PartnerForm({ partner }: { partner?: PartnerRecord }) {
           <input
             className="form-control"
             name="name"
+            aria-label="Name"
             placeholder="Name"
             maxLength={PARTNER_NAME_MAX}
             value={name}
@@ -49,6 +50,7 @@ function PartnerForm({ partner }: { partner?: PartnerRecord }) {
           <input
             className="form-control"
             name="url"
+            aria-label="URL"
             placeholder="URL"
             maxLength={PARTNER_URL_MAX}
             value={url}
@@ -59,6 +61,7 @@ function PartnerForm({ partner }: { partner?: PartnerRecord }) {
           <input
             className="form-control"
             name="logoUrl"
+            aria-label="Logo-URL (leer lassen bei Discord-Invite-Autofetch)"
             placeholder="Logo-URL (leer lassen bei Discord-Invite-Autofetch)"
             maxLength={PARTNER_URL_MAX}
             value={logoUrl}
@@ -69,6 +72,7 @@ function PartnerForm({ partner }: { partner?: PartnerRecord }) {
           <input
             className="form-control"
             name="discordInviteCode"
+            aria-label="Discord-Invite-Code (optional)"
             placeholder="Discord-Invite-Code (optional)"
             value={discordInviteCode}
             onChange={(event) => setDiscordInviteCode(event.target.value)}
@@ -78,6 +82,7 @@ function PartnerForm({ partner }: { partner?: PartnerRecord }) {
           <input
             className="form-control"
             name="tagline"
+            aria-label="Tagline"
             placeholder="Tagline"
             maxLength={PARTNER_TAGLINE_MAX}
             value={tagline}
@@ -88,6 +93,7 @@ function PartnerForm({ partner }: { partner?: PartnerRecord }) {
           <textarea
             className="form-control"
             name="description"
+            aria-label="Beschreibung"
             placeholder="Beschreibung"
             rows={2}
             maxLength={PARTNER_DESCRIPTION_MAX}
@@ -98,6 +104,7 @@ function PartnerForm({ partner }: { partner?: PartnerRecord }) {
       </div>
       {state.message && (
         <p
+          role="status"
           className={state.ok ? "text-success" : "text-danger"}
           style={{ marginTop: "8px" }}
         >

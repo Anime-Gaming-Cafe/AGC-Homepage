@@ -1,5 +1,11 @@
 import type { CSSProperties, ReactNode } from "react";
+import type { Metadata } from "next";
 import Script from "next/script";
+import { CANONICAL_URL } from "@/lib/constants";
+
+export const metadata: Metadata = {
+  metadataBase: new URL(CANONICAL_URL),
+};
 
 const htmlStyle = {
   "--bs-dark": "#090B19",

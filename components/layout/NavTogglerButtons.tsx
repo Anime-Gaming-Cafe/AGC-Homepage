@@ -19,6 +19,9 @@ export function NavTogglerButtons() {
         type="button"
         data-open="drawer"
         onClick={openDrawer}
+        aria-label="Menü öffnen"
+        aria-expanded={open}
+        aria-controls="off-canvas-nav"
         style={{ ...buttonStyle, display: open ? "none" : undefined }}
       >
         <svg
@@ -28,6 +31,7 @@ export function NavTogglerButtons() {
           fill="currentColor"
           viewBox="0 0 16 16"
           className="bi bi-list-task"
+          aria-hidden="true"
           style={{ fontSize: "30px" }}
         >
           <path
@@ -47,6 +51,9 @@ export function NavTogglerButtons() {
         type="button"
         data-dismiss="drawer"
         onClick={closeDrawer}
+        aria-label="Menü schließen"
+        aria-expanded={open}
+        aria-controls="off-canvas-nav"
         style={{ ...buttonStyle, display: open ? "block" : "none" }}
       >
         <svg
@@ -56,6 +63,7 @@ export function NavTogglerButtons() {
           fill="currentColor"
           viewBox="0 0 16 16"
           className="bi bi-x-lg"
+          aria-hidden="true"
           style={{ fontSize: "30px" }}
         >
           <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"></path>

@@ -31,6 +31,9 @@ export function OffCanvasNav({ vanityCode, variant }: OffCanvasNavProps) {
 
   return (
     <nav
+      id="off-canvas-nav"
+      aria-label="Mobile Navigation"
+      inert={!open}
       className={`navbar fixed-top off-canvas navbar-dark${open ? " open" : ""}`}
       data-right-drawer="0"
       data-open-drawer={open ? "1" : "0"}

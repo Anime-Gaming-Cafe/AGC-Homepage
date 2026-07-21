@@ -21,3 +21,49 @@
 .navigation-clean.detached > .container {
   padding: 8px 20px;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .navigation-clean,
+  .navigation-clean > .container,
+  .navbar.fixed-top.off-canvas,
+  .drawer-slide > .drawer-site,
+  body > div.drawer-fade,
+  .accordion__header::after,
+  .navbar-toggler-icon,
+  .navbar-toggler-icon::before,
+  .navbar-toggler-icon::after,
+  .container .card .face,
+  .container .card .face.face1 .content,
+  .form-control,
+  .form-control:focus,
+  .btn-primary:hover,
+  a,
+  a:focus,
+  a:hover {
+    transition: none !important;
+  }
+
+  .link-animation {
+    transition: none !important;
+  }
+
+  #partners a.glas {
+    transition: none !important;
+    transform: none !important;
+  }
+
+  .front-imagia1:hover,
+  .back-imagia1,
+  .card-preview-back .front-imagia1 {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+
+  .preloader > span.loading-bar,
+  .rainbow,
+  .one,
+  .two,
+  .three {
+    animation: none !important;
+  }
+}

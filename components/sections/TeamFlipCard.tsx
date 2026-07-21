@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { ProfileLinkIcon } from "@/components/sections/ProfileLinkIcon";
 import type { TeamMemberView } from "@/lib/discord/views";
 
@@ -26,13 +27,22 @@ export function TeamFlipCard({
         <div className="card-imagia">
           <div className="front-imagia front-imagia1">
             <div className="cover-imagia">
-              <img alt="" src={member.bannerUrl} loading="lazy" />
+              <Image
+                alt=""
+                src={member.bannerUrl}
+                width={1000}
+                height={400}
+                sizes="(max-width: 768px) 100vw, 400px"
+                loading="lazy"
+              />
             </div>
             <div className="user-imagia">
-              <img
+              <Image
                 className="rounded-circle img-circle"
-                alt=""
+                alt={`Avatar von ${member.nickname}`}
                 src={member.avatarUrl}
+                width={128}
+                height={128}
                 loading="lazy"
               />
             </div>
@@ -44,7 +54,12 @@ export function TeamFlipCard({
               <p className="text-break text-center">{frontDesc}</p>
             </div>
             <div className="footer-imagia">
-              <a href={profileUrl} target="_blank">
+              <a
+                href={profileUrl}
+                target="_blank"
+                rel="noopener"
+                aria-label={`Discord Profil von ${member.nickname}`}
+              >
                 <span>
                   <ProfileLinkIcon />
                   &nbsp;Profil Link
@@ -70,7 +85,12 @@ export function TeamFlipCard({
               </div>
             </div>
             <div className="footer-imagia">
-              <a href={profileUrl} target="_blank">
+              <a
+                href={profileUrl}
+                target="_blank"
+                rel="noopener"
+                aria-label={`Discord Profil von ${member.nickname}`}
+              >
                 <span>
                   <ProfileLinkIcon />
                   &nbsp;Profil Link

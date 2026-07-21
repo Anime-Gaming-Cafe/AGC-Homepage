@@ -1,13 +1,27 @@
 "use client";
 
+import Image from "next/image";
 import type { PartnerView } from "@/lib/discord/views";
 
+function prefersReducedMotion() {
+  return (
+    typeof window !== "undefined" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  );
+}
+
 export function PartnerCard({ partner }: { partner: PartnerView }) {
+  const scale = (element: HTMLElement, value: string) => {
+    if (prefersReducedMotion()) return;
+    element.style.transform = value;
+  };
+
   return (
     <div className="col-sm-6 col-md-4 col-lg-3 mb-4 d-flex justify-content-center">
       <a
         href={partner.url}
         target="_blank"
+        rel="noopener"
         referrerPolicy="no-referrer-when-downgrade"
         className="text-decoration-none text-white text-center d-flex flex-column align-items-center glas p-4 rounded"
         style={{
@@ -15,16 +29,17 @@ export function PartnerCard({ partner }: { partner: PartnerView }) {
           borderRadius: "16px",
           transition: "transform 0.2s",
         }}
-        onMouseOver={(event) => {
-          event.currentTarget.style.transform = "scale(1.05)";
-        }}
-        onMouseOut={(event) => {
-          event.currentTarget.style.transform = "scale(1)";
-        }}
+        onMouseOver={(event) => scale(event.currentTarget, "scale(1.05)")}
+        onMouseOut={(event) => scale(event.currentTarget, "scale(1)")}
+        onFocus={(event) => scale(event.currentTarget, "scale(1.05)")}
+        onBlur={(event) => scale(event.currentTarget, "scale(1)")}
       >
-        <img
+        <Image
           src={partner.logoUrl}
-          alt={`${partner.name} Logo`}
+          alt=""
+          width={80}
+          height={80}
+          unoptimized
           loading="lazy"
           referrerPolicy="no-referrer"
           style={{

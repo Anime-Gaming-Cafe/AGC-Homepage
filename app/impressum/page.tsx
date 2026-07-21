@@ -26,11 +26,15 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: PAGE_TITLE,
     description,
+    robots: { index: false, follow: true },
+    alternates: { canonical: `${CANONICAL_URL}/impressum` },
     openGraph: {
       type: "website",
+      siteName: "Anime & Gaming Café",
       title: PAGE_TITLE,
       description,
-      url: CANONICAL_URL,
+      url: `${CANONICAL_URL}/impressum`,
+      locale: "de_DE",
       ...(iconUrl ? { images: [{ url: iconUrl }] } : {}),
     },
     ...(iconUrl ? { icons: { icon: iconUrl } } : {}),

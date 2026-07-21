@@ -11,7 +11,11 @@ export function StatTile({ icon, value, label, extraColClass }: StatTileProps) {
       className={`col-sm-6 col-md-3 ${extraColClass ?? ""}col-xl-3 text-center`}
       style={{ minWidth: "100px" }}
     >
-      <span className="fa-stack fa-4x stats" style={{ marginTop: "10px" }}>
+      <span
+        className="fa-stack fa-4x stats"
+        aria-hidden="true"
+        style={{ marginTop: "10px" }}
+      >
         <i className={`${icon} fa-stack-1x fa-inverse stats`}></i>
       </span>
       <h4

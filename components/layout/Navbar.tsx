@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { NavTogglerButtons } from "@/components/layout/NavTogglerButtons";
 
@@ -23,6 +24,7 @@ export function Navbar({ iconUrl, vanityCode, variant }: NavbarProps) {
 
   return (
     <nav
+      aria-label="Hauptnavigation"
       className={`navbar navbar-expand-lg fixed-top navigation-clean navbar-light${
         detached ? " detached" : ""
       }`}
@@ -33,12 +35,15 @@ export function Navbar({ iconUrl, vanityCode, variant }: NavbarProps) {
           href="https://animegamingcafe.de/"
         >
           <div className="sidebar-brand-icon">
-            <img
-              className="rounded-circle"
-              src={iconUrl}
-              alt=""
-              style={{ width: "50px" }}
-            />
+            {iconUrl && (
+              <Image
+                className="rounded-circle"
+                src={iconUrl}
+                alt=""
+                width={50}
+                height={50}
+              />
+            )}
           </div>
           <div className="sidebar-brand-text mx-3" style={{ fontSize: "32px" }}>
             <span
