@@ -1,0 +1,110 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    ":semanticCommits",
+    ":dependencyDashboard"
+  ],
+  "timezone": "Europe/Berlin",
+  "schedule": [
+    "after 10pm every weekday",
+    "every weekend"
+  ],
+  "baseBranchPatterns": [
+    "main"
+  ],
+  "labels": [
+    "dependencies",
+    "renovate"
+  ],
+  "dependencyDashboard": true,
+  "enabledManagers": [
+    "npm"
+  ],
+  "rangeStrategy": "bump",
+  "rebaseWhen": "conflicted",
+  "automerge": false,
+  "prConcurrentLimit": 5,
+  "prHourlyLimit": 0,
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": [
+      "before 5am on monday"
+    ]
+  },
+  "vulnerabilityAlerts": {
+    "enabled": true,
+    "labels": [
+      "security"
+    ],
+    "prPriority": 10
+  },
+  "osvVulnerabilityAlerts": true,
+  "postUpdateOptions": [
+    "npmDedupe"
+  ],
+  "packageRules": [
+    {
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "matchCurrentVersion": "!/^0\\./",
+      "groupName": "Miscellaneous Updates"
+    },
+    {
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "dependencyDashboardApproval": true,
+      "labels": [
+        "major-update"
+      ]
+    },
+    {
+      "groupName": "Next.js & React",
+      "matchPackageNames": [
+        "/^next$/",
+        "/^@next\\//",
+        "/^eslint-config-next$/",
+        "/^react$/",
+        "/^react-dom$/",
+        "/^@types\\/react/"
+      ]
+    },
+    {
+      "groupName": "discord.js",
+      "matchPackageNames": [
+        "/^discord\\.js$/"
+      ]
+    },
+    {
+      "groupName": "Auth.js",
+      "matchPackageNames": [
+        "/^next-auth$/"
+      ],
+      "followTag": "beta"
+    },
+    {
+      "groupName": "Postgres client",
+      "matchPackageNames": [
+        "/^pg$/",
+        "/^@types\\/pg$/"
+      ]
+    },
+    {
+      "groupName": "TypeScript & types",
+      "matchPackageNames": [
+        "/^typescript$/",
+        "/^@types\\//"
+      ]
+    },
+    {
+      "groupName": "ESLint",
+      "matchPackageNames": [
+        "/^eslint$/",
+        "/^eslint-.*$/"
+      ]
+    }
+  ]
+}
