@@ -1,0 +1,32 @@
+﻿.text-blue {
+    color: #45dbfd;
+}
+
+.event-image-container {
+    position: relative;
+    display: inline-block;
+}
+
+.hover-image {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.event-image-container:hover .hover-image {
+    display: block;
+}
+
+.card-container-imagia {
+    height: 420px;
+}
+
+.card-container-imagia .front-imagia,
+.card-container-imagia .back-imagia {
+    height: 420px;
+}
+
+.card-imagia .content-imagia {
+    overflow: hidden;
+}
