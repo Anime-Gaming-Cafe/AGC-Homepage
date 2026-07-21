@@ -1,59 +1,58 @@
-# AGC-Homepage Source-Available License
-
-**Version 1.0 — 2026**
+AGC-Homepage Source-Available License
+Version 1.0 — 2026
 
 Copyright (c) 2026 Anime & Gaming Café Discord. All rights reserved.
 
-## 1. Definitions
+1. DEFINITIONS
 
-- **"Software"** means the source code, object code, documentation, and any related materials made available under this License, including all copies and portions thereof.
-- **"Licensor"** means Anime Gaming Cafe, the copyright holder of the Software.
-- **"You"** means the individual or entity accessing the Software.
-- **"Use"** means to execute, run, deploy, compile, install, or otherwise operate the Software, or any portion of it, in any environment, for any purpose.
+"Software" means the source code, object code, documentation, and any related materials made available under this License, including all copies and portions thereof.
+"Licensor" means Anime Gaming Cafe, the copyright holder of the Software.
+"You" means the individual or entity accessing the Software.
+"Use" means to execute, run, deploy, compile, install, or otherwise operate the Software, or any portion of it, in any environment, for any purpose.
 
-## 2. Grant of Access
+2. GRANT OF ACCESS
 
-Subject to the terms of this License, Licensor grants You a limited, non-exclusive, non-transferable, revocable right to **view and read** the source code of the Software solely for the purpose of inspection, evaluation, and reference. No other rights are granted, whether express, implied, or by estoppel.
+Subject to the terms of this License, Licensor grants You a limited, non-exclusive, non-transferable, revocable right to view and read the source code of the Software solely for the purpose of inspection, evaluation, and reference. No other rights are granted, whether express, implied, or by estoppel.
 
-## 3. Restrictions
+3. RESTRICTIONS
 
-Except as expressly permitted in Section 2, You may **not**, and may not permit or assist any third party to:
+Except as expressly permitted in Section 2, You may not, and may not permit or assist any third party to:
 
-a. **Use** the Software, in whole or in part, for any purpose — personal, educational, internal, or commercial;
-b. **Modify**, adapt, translate, port, or create derivative works based on the Software;
-c. **Copy, distribute, publish, sublicense, sell, rent, lease, or otherwise make the Software available** to any third party, in source or compiled form;
-d. **Reverse engineer, decompile, or disassemble** any compiled portion of the Software, except to the extent such restriction is prohibited by applicable law;
-e. **Remove, obscure, or alter** any copyright, trademark, or other proprietary notice contained in the Software;
+a. Use the Software, in whole or in part, for any purpose - personal, educational, internal, or commercial;
+b. Modify, adapt, translate, port, or create derivative works based on the Software;
+c. Copy, distribute, publish, sublicense, sell, rent, lease, or otherwise make the Software available to any third party, in source or compiled form;
+d. Reverse engineer, decompile, or disassemble any compiled portion of the Software, except to the extent such restriction is prohibited by applicable law;
+e. Remove, obscure, or alter any copyright, trademark, or other proprietary notice contained in the Software;
 f. Incorporate the Software, or any portion of it, into any other software, product, or service.
 
-## 4. No Implied Licenses
+4. NO IMPLIED LICENSES
 
 Nothing in this License grants, by implication, estoppel, or otherwise, any license or right under any patent, trademark, copyright, or other intellectual property right of Licensor, except for the limited viewing right expressly granted in Section 2.
 
-## 5. Reservation of Rights
+5. RESERVATION OF RIGHTS
 
 All rights not expressly granted to You under this License are reserved by Licensor. Licensor retains sole and exclusive ownership of all right, title, and interest in and to the Software, including all intellectual property rights therein.
 
-## 6. Requesting Additional Rights
+6. REQUESTING ADDITIONAL RIGHTS
 
-Use, modification, or distribution of the Software beyond the limited viewing right granted herein requires a separate written license from Licensor. Requests may be directed to: mailto:contact@animegamingcafe.de.
+Use, modification, or distribution of the Software beyond the limited viewing right granted herein requires a separate written license from Licensor. Requests may be directed to: contact@animegamingcafe.de.
 
-## 7. Termination
+7. TERMINATION
 
 This License and all rights granted hereunder terminate automatically and without notice if You breach any term of this License. Upon termination, You must immediately cease all access to the Software and destroy any copies in Your possession or control.
 
-## 8. Disclaimer of Warranty
+8. DISCLAIMER OF WARRANTY
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT. LICENSOR DOES NOT WARRANT THAT THE SOFTWARE IS ERROR-FREE.
 
-## 9. Limitation of Liability
+9. LIMITATION OF LIABILITY
 
 IN NO EVENT SHALL LICENSOR BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION WITH THE SOFTWARE OR ANY DEALINGS IN THE SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
 
-## 10. Governing Law
+10. GOVERNING LAW
 
 This License is governed by and construed in accordance with the laws of Germany, without regard to its conflict-of-law provisions.
 
-## 11. Entire Agreement
+11. ENTIRE AGREEMENT
 
 This License constitutes the entire agreement between You and Licensor with respect to the Software and supersedes all prior or contemporaneous understandings regarding such subject matter.
