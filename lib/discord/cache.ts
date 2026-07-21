@@ -139,6 +139,35 @@ function buildTeamList(guild: Guild): GuildMember[] {
     });
 }
 
+async function buildTeamMemberView(
+  member: GuildMember,
+): Promise<TeamMemberView> {
+  let bannerUrl: string | null = null;
+  try {
+    const user = await member.client.users.fetch(member.id, {
+      force: true,
+    });
+    bannerUrl =
+      user.bannerURL({
+        size: 4096,
+        extension: cdnExtension(user.banner),
+      }) ?? null;
+  } catch (error) {
+    console.error(`[discord] Banner fetch failed for ${member.id}:`, error);
+  }
+  return {
+    id: member.id,
+    username: member.user.username,
+    nickname: member.nickname ?? member.displayName ?? member.user.username,
+    topRole: buildTopRoleName(member),
+    avatarUrl: member.displayAvatarURL({
+      size: 1024,
+      extension: cdnExtension(member.avatar ?? member.user.avatar),
+    }),
+    bannerUrl: bannerUrl ?? FALLBACK_BANNER_URL,
+  };
+}
+
 async function refreshTeam(): Promise<void> {
   const g = getAgcGlobal();
   const guild = getGuild();
@@ -149,34 +178,30 @@ async function refreshTeam(): Promise<void> {
     const members = buildTeamList(guild);
     const team: TeamMemberView[] = [];
     for (const member of members) {
-      let bannerUrl: string | null = null;
-      try {
-        const user = await member.client.users.fetch(member.id, {
-          force: true,
-        });
-        bannerUrl =
-          user.bannerURL({
-            size: 4096,
-            extension: cdnExtension(user.banner),
-          }) ?? null;
-      } catch (error) {
-        console.error(`[discord] Banner fetch failed for ${member.id}:`, error);
-      }
-      team.push({
-        id: member.id,
-        username: member.user.username,
-        nickname: member.nickname ?? member.displayName ?? member.user.username,
-        topRole: buildTopRoleName(member),
-        avatarUrl: member.displayAvatarURL({
-          size: 1024,
-          extension: cdnExtension(member.avatar ?? member.user.avatar),
-        }),
-        bannerUrl: bannerUrl ?? FALLBACK_BANNER_URL,
-      });
+      team.push(await buildTeamMemberView(member));
     }
     cache.team = team;
   } finally {
     g.refreshInFlight = false;
+  }
+}
+
+export async function getTeamMemberView(
+  discordId: string,
+): Promise<TeamMemberView | null> {
+  const cached = getAgcGlobal().cache?.team.find((m) => m.id === discordId);
+  if (cached) return cached;
+
+  const guild = getGuild();
+  if (!guild) return null;
+  try {
+    const member =
+      guild.members.cache.get(discordId) ??
+      (await guild.members.fetch(discordId));
+    return await buildTeamMemberView(member);
+  } catch (error) {
+    console.error(`[discord] Member lookup failed for ${discordId}:`, error);
+    return null;
   }
 }
 

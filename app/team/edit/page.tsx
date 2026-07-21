@@ -3,6 +3,8 @@ import type { CSSProperties, ReactNode } from "react";
 import { auth, signIn, signOut } from "@/auth";
 import { isStaff } from "@/lib/auth-helpers";
 import { getTeamProfile } from "@/lib/db";
+import { getTeamMemberView } from "@/lib/discord/cache";
+import type { TeamMemberView } from "@/lib/discord/views";
 import { ProfileForm } from "@/app/team/edit/ProfileForm";
 
 export const dynamic = "force-dynamic";
@@ -19,16 +21,25 @@ const cardStyle: CSSProperties = {
   borderRadius: "16px",
 };
 
+const wideCardStyle: CSSProperties = {
+  ...cardStyle,
+  maxWidth: "1000px",
+  margin: "10vh auto 0",
+};
+
 const buttonStyle: CSSProperties = {
   lineHeight: "24px",
   fontSize: "18px",
   borderRadius: "16px",
 };
 
-function Card({ children }: { children: ReactNode }) {
+function Card({ children, wide }: { children: ReactNode; wide?: boolean }) {
   return (
     <div className="container">
-      <div className="glas text-center text-white" style={cardStyle}>
+      <div
+        className="glas text-center text-white"
+        style={wide ? wideCardStyle : cardStyle}
+      >
         <h1 style={{ fontFamily: "Wandertucker", fontSize: "48px" }}>
           Teamprofil
         </h1>
@@ -102,13 +113,24 @@ export default async function TeamEditPage() {
     console.error("[team/edit] Profile query failed:", error);
   }
 
+  let member: TeamMemberView | null = null;
+  try {
+    member = await getTeamMemberView(discordId);
+  } catch (error) {
+    console.error("[team/edit] Member lookup failed:", error);
+  }
+
   return (
-    <Card>
+    <Card wide>
       <p className="text-muted">
-        Diese Texte erscheinen auf deiner Teamkarte auf der Startseite
-        (Vorderseite und Rückseite der Karte).
+        Diese Texte erscheinen auf deiner Teamkarte auf der Startseite. Die
+        Vorschau rechts aktualisiert sich beim Tippen.
       </p>
-      <ProfileForm initialFrontDesc={frontDesc} initialBackDesc={backDesc} />
+      <ProfileForm
+        initialFrontDesc={frontDesc}
+        initialBackDesc={backDesc}
+        member={member}
+      />
       <form
         action={async () => {
           "use server";

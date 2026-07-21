@@ -30,3 +30,14 @@
 .card-imagia .content-imagia {
     overflow: hidden;
 }
+
+.card-preview {
+    max-width: 340px;
+    margin: 0 auto;
+}
+
+.card-preview-back .front-imagia1 {
+    -webkit-animation: fadeOut 0.5s ease-out forwards;
+    -moz-animation: fadeOut 0.5s ease-out forwards;
+    animation: fadeOut 0.5s ease-out forwards;
+}

@@ -5,9 +5,15 @@ interface TeamFlipCardProps {
   member: TeamMemberView;
   frontDesc: string | null;
   backDesc: string | null;
+  className?: string;
 }
 
-export function TeamFlipCard({ member, frontDesc, backDesc }: TeamFlipCardProps) {
+export function TeamFlipCard({
+  member,
+  frontDesc,
+  backDesc,
+  className = "col-sm-6 col-md-4",
+}: TeamFlipCardProps) {
   const profileUrl = `https://discord.com/users/${member.id}`;
   const subtitleStyle = {
     fontFamily: "'Whitney Book Italic'",
@@ -15,7 +21,7 @@ export function TeamFlipCard({ member, frontDesc, backDesc }: TeamFlipCardProps)
   } as const;
 
   return (
-    <div className="col-sm-6 col-md-4">
+    <div className={className}>
       <div className="card-container-imagia">
         <div className="card-imagia">
           <div className="front-imagia front-imagia1">
