@@ -2,11 +2,13 @@
   "name": "agc-homepage-next",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "bun@1.3.14",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "types:check": "tsc --noEmit"
   },
   "dependencies": {
     "discord.js": "^14.27.0",
@@ -24,5 +26,8 @@
     "eslint": "^9",
     "eslint-config-next": "16.2.10",
     "typescript": "^5"
-  }
+  },
+  "trustedDependencies": [
+    "unrs-resolver"
+  ]
 }
