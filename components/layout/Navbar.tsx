@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { NavTogglerButtons } from "@/components/layout/NavTogglerButtons";
 
 interface NavbarProps {
@@ -6,10 +9,25 @@ interface NavbarProps {
   variant: "home" | "impressum";
 }
 
+const DETACH_OFFSET = 8;
+
 export function Navbar({ iconUrl, vanityCode, variant }: NavbarProps) {
+  const [detached, setDetached] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setDetached(window.scrollY > DETACH_OFFSET);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
-    <nav className="navbar navbar-expand-lg fixed-top navigation-clean navbar-light">
-      <div className="container">
+    <nav
+      className={`navbar navbar-expand-lg fixed-top navigation-clean navbar-light${
+        detached ? " detached" : ""
+      }`}
+    >
+      <div className={`container${detached ? " glas" : ""}`}>
         <a
           className="navbar-brand d-flex justify-content-center align-items-center"
           href="https://animegamingcafe.de/"
