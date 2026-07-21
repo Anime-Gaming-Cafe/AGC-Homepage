@@ -1,14 +1,12 @@
 import type { Metadata, Viewport } from "next";
 import { getSnapshot } from "@/lib/discord/cache";
-import { getPartners, getTeamProfiles, type TeamProfile } from "@/lib/db";
-import { resolvePartnerLogos } from "@/lib/discord/partners";
-import type { PartnerView } from "@/lib/discord/views";
 import { CANONICAL_URL } from "@/lib/constants";
 import { DrawerProvider } from "@/components/layout/DrawerProvider";
 import { OffCanvasNav } from "@/components/layout/OffCanvasNav";
 import { Navbar } from "@/components/layout/Navbar";
 import { Preloader } from "@/components/layout/Preloader";
 import { HeroBackground } from "@/components/layout/HeroBackground";
+import { UnavailableNotice } from "@/components/layout/UnavailableNotice";
 import { Footer } from "@/components/layout/Footer";
 import { Hero } from "@/components/sections/Hero";
 import { InfoSection } from "@/components/sections/InfoSection";
@@ -63,35 +61,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function HomePage() {
   const { guild, cache } = getSnapshot();
 
-  if (!guild) {
-    return (
-      <div
-        style={{
-          color: "white",
-          textAlign: "center",
-          marginTop: "40vh",
-          fontSize: "24px",
-        }}
-      >
-        Bot verbindet sich... bitte in ein paar Sekunden neu laden.
-      </div>
-    );
-  }
-
-  let profiles: Map<string, TeamProfile>;
-  try {
-    profiles = await getTeamProfiles(cache.team.map((member) => member.id));
-  } catch (error) {
-    console.error("[page] Team profiles query failed:", error);
-    profiles = new Map();
-  }
-
-  let partners: PartnerView[] = [];
-  try {
-    partners = await resolvePartnerLogos(await getPartners());
-  } catch (error) {
-    console.error("[page] Partners query failed:", error);
-  }
+  if (!guild) return <UnavailableNotice />;
 
   return (
     <DrawerProvider>
@@ -119,8 +89,8 @@ export default async function HomePage() {
         todayMessages={cache.db.todayMessages}
         todayJoins={cache.db.todayJoins}
       />
-      <PartnersSection partners={partners} />
-      <TeamSection team={cache.team} profiles={profiles} />
+      <PartnersSection partners={cache.partners} />
+      <TeamSection team={cache.team} profiles={cache.profiles} />
       <Footer vanityCode={guild.vanityCode} />
     </DrawerProvider>
   );

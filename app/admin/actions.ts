@@ -11,6 +11,7 @@ import {
   updatePageInformation,
   updatePartner,
 } from "@/lib/db";
+import { refreshDbTexts, refreshPartners } from "@/lib/discord/cache";
 import {
   PAGE_DESCRIPTION_MAX,
   PAGE_INFORMATION_MAX,
@@ -62,6 +63,7 @@ export async function saveSiteTexts(
     return { ok: false, message: "Speichern fehlgeschlagen." };
   }
 
+  await refreshDbTexts();
   revalidatePath("/");
   return { ok: true, message: "Gespeichert." };
 }
@@ -130,6 +132,7 @@ export async function savePartner(
     return { ok: false, message: "Speichern fehlgeschlagen." };
   }
 
+  await refreshPartners();
   revalidatePath("/");
   revalidatePath("/admin");
   return { ok: true, message: idRaw ? "Partner gespeichert." : "Partner hinzugefügt." };
@@ -138,6 +141,7 @@ export async function savePartner(
 export async function deletePartnerAction(id: number): Promise<void> {
   if (!(await requireAdmin())) return;
   await deletePartner(id);
+  await refreshPartners();
   revalidatePath("/");
   revalidatePath("/admin");
 }
@@ -148,6 +152,7 @@ export async function movePartnerAction(
 ): Promise<void> {
   if (!(await requireAdmin())) return;
   await movePartner(id, direction);
+  await refreshPartners();
   revalidatePath("/");
   revalidatePath("/admin");
 }

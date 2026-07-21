@@ -18,14 +18,17 @@ import {
 import {
   getPageDescription,
   getPageInformation,
+  getPartners,
+  getTeamProfiles,
   getTodayJoins,
   getTodayMessages,
   getTotalMessages,
 } from "@/lib/db";
+import { resolvePartnerLogos } from "@/lib/discord/partners";
 import { getEnv, validateConfig } from "@/lib/config";
 import { FALLBACK_BANNER_URL, STAFF_ROLE_ID } from "@/lib/constants";
 
-const REFRESH_INTERVAL_MS = 30 * 60_000;
+const REFRESH_INTERVAL_MS = 7 * 60_000;
 
 function cdnExtension(hash: string | null | undefined): "png" | "gif" {
   return hash?.startsWith("a_") ? "gif" : "png";
@@ -45,6 +48,8 @@ function createEmptyCache(): SiteCache {
     events: [],
     hasUpcomingEvent: false,
     team: [],
+    profiles: new Map(),
+    partners: [],
   };
 }
 
@@ -82,7 +87,13 @@ export async function startDiscord(): Promise<void> {
   client.on("guildMemberUpdate", (oldMember, newMember) => {
     const hadRole = oldMember.roles.cache.has(STAFF_ROLE_ID);
     const hasRole = newMember.roles.cache.has(STAFF_ROLE_ID);
-    if (hadRole !== hasRole) void refreshTeam();
+    if (hadRole !== hasRole) {
+      void refreshTeam()
+        .then(() => refreshTeamProfiles())
+        .catch((error) =>
+          console.error("[discord] Team refresh failed:", error)
+        );
+    }
   });
 
   client.on(
@@ -186,6 +197,18 @@ async function refreshTeam(): Promise<void> {
   }
 }
 
+export async function refreshTeamProfiles(): Promise<void> {
+  const cache = getAgcGlobal().cache;
+  if (!cache) return;
+  cache.profiles = await getTeamProfiles(cache.team.map((member) => member.id));
+}
+
+export async function refreshPartners(): Promise<void> {
+  const cache = getAgcGlobal().cache;
+  if (!cache) return;
+  cache.partners = await resolvePartnerLogos(await getPartners());
+}
+
 export async function getTeamMemberView(
   discordId: string,
 ): Promise<TeamMemberView | null> {
@@ -227,7 +250,7 @@ async function refreshEvents(): Promise<void> {
   );
 }
 
-async function refreshDbTexts(): Promise<void> {
+export async function refreshDbTexts(): Promise<void> {
   const cache = getAgcGlobal().cache;
   if (!cache) return;
   cache.db.pageDescription =
@@ -251,6 +274,7 @@ async function refresh(): Promise<void> {
   }
   try {
     await refreshTeam();
+    await refreshTeamProfiles();
   } catch (error) {
     console.error("[refresh] Team failed:", error);
   }
@@ -258,6 +282,11 @@ async function refresh(): Promise<void> {
     await refreshEvents();
   } catch (error) {
     console.error("[refresh] Events failed:", error);
+  }
+  try {
+    await refreshPartners();
+  } catch (error) {
+    console.error("[refresh] Partners failed:", error);
   }
 
   cache.ready = true;

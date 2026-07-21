@@ -1,4 +1,5 @@
 import "server-only";
+import type { TeamProfile } from "@/lib/db";
 
 export interface GuildView {
   iconUrl: string;
@@ -50,6 +51,8 @@ export interface SiteCache {
   events: EventView[];
   hasUpcomingEvent: boolean;
   team: TeamMemberView[];
+  profiles: Map<string, TeamProfile>;
+  partners: PartnerView[];
 }
 
 const berlinFormat = new Intl.DateTimeFormat("de-DE", {

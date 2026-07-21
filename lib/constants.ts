@@ -4,6 +4,8 @@ export const STAFF_ROLE_ID =
 
 export const CANONICAL_URL = "https://animegamingcafe.de";
 
+export const FALLBACK_INVITE_URL = "https://discord.gg/animegamingcafe";
+
 export const FALLBACK_BANNER_URL = "/assets/img/fallback-banner.svg";
 
 export const FRONT_DESC_MAX = 50;

@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
 import { isStaff } from "@/lib/auth-helpers";
 import { upsertTeamProfile } from "@/lib/db";
+import { refreshTeamProfiles } from "@/lib/discord/cache";
 import { BACK_DESC_MAX, FRONT_DESC_MAX } from "@/lib/constants";
 
 export interface SaveProfileState {
@@ -44,6 +45,7 @@ export async function saveProfile(
     return { ok: false, message: "Speichern fehlgeschlagen. Bitte später erneut versuchen." };
   }
 
+  await refreshTeamProfiles();
   revalidatePath("/");
   return { ok: true, message: "Profil gespeichert." };
 }
