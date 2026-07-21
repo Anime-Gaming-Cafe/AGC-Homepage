@@ -80,11 +80,61 @@ export async function upsertTeamProfile(
   backDesc: string
 ): Promise<void> {
   const id = BigInt(userId);
-  await getPrisma().teamProfile.upsert({
+  const previous = await getPrisma().teamProfile.findUnique({
     where: { userId: id },
-    create: { userId: id, frontDesc, backDesc },
-    update: { frontDesc, backDesc },
   });
+
+  if (
+    previous?.frontDesc === frontDesc &&
+    previous?.backDesc === backDesc
+  ) {
+    return;
+  }
+
+  await getPrisma().$transaction([
+    getPrisma().teamProfile.upsert({
+      where: { userId: id },
+      create: { userId: id, frontDesc, backDesc },
+      update: { frontDesc, backDesc },
+    }),
+    getPrisma().profileEdit.create({
+      data: {
+        userId: id,
+        frontBefore: previous?.frontDesc ?? null,
+        backBefore: previous?.backDesc ?? null,
+        frontAfter: frontDesc,
+        backAfter: backDesc,
+      },
+    }),
+  ]);
+}
+
+export interface ProfileEditRecord {
+  id: number;
+  userId: string;
+  editedAt: Date;
+  frontBefore: string | null;
+  backBefore: string | null;
+  frontAfter: string | null;
+  backAfter: string | null;
+}
+
+export async function getProfileEdits(
+  limit = 100
+): Promise<ProfileEditRecord[]> {
+  const rows = await getPrisma().profileEdit.findMany({
+    orderBy: { editedAt: "desc" },
+    take: limit,
+  });
+  return rows.map((row) => ({
+    id: row.id,
+    userId: row.userId.toString(),
+    editedAt: row.editedAt,
+    frontBefore: row.frontBefore,
+    backBefore: row.backBefore,
+    frontAfter: row.frontAfter,
+    backAfter: row.backAfter,
+  }));
 }
 
 export interface PartnerRecord {

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import type { CSSProperties, ReactNode } from "react";
+import Link from "next/link";
 import { auth, signIn, signOut } from "@/auth";
 import { isGuildAdmin } from "@/lib/auth-helpers";
 import { getPageDescription, getPageInformation, getPartners } from "@/lib/db";
@@ -122,6 +123,16 @@ export default async function AdminPage() {
       <hr style={{ margin: "40px 0" }} />
       <h2 style={{ fontFamily: "Wandertucker", fontSize: "32px" }}>Partner</h2>
       <PartnersAdmin partners={partners} />
+      <hr style={{ margin: "40px 0" }} />
+      <div className="text-center">
+        <Link
+          className="btn btn-primary shadow button-animation glas"
+          href="/admin/profile-log"
+          style={buttonStyle}
+        >
+          Profil-Log ansehen
+        </Link>
+      </div>
       <form
         action={async () => {
           "use server";

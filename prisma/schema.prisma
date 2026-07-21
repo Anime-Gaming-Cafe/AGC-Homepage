@@ -29,6 +29,19 @@ model TeamProfile {
   @@map("teamprofile")
 }
 
+model ProfileEdit {
+  id          Int      @id @default(autoincrement())
+  userId      BigInt   @map("userid")
+  editedAt    DateTime @default(now()) @map("edited_at")
+  frontBefore String?  @map("front_before") @db.VarChar(50)
+  backBefore  String?  @map("back_before") @db.VarChar(500)
+  frontAfter  String?  @map("front_after") @db.VarChar(50)
+  backAfter   String?  @map("back_after") @db.VarChar(500)
+
+  @@index([editedAt])
+  @@map("profile_edits")
+}
+
 model Msgs {
   id    Int    @id @default(1)
   count BigInt @default(0)
