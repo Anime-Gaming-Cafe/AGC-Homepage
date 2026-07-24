@@ -42,6 +42,7 @@ export function Navbar({ iconUrl, vanityCode, variant }: NavbarProps) {
                 alt=""
                 width={50}
                 height={50}
+                unoptimized
               />
             )}
           </div>

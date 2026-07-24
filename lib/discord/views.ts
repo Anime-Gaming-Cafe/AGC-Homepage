@@ -51,6 +51,7 @@ export interface SiteCache {
   events: EventView[];
   hasUpcomingEvent: boolean;
   team: TeamMemberView[];
+  botCount: number;
   profiles: Map<string, TeamProfile>;
   partners: PartnerView[];
 }

@@ -20,6 +20,7 @@ export function HeroBackground({ bannerUrl, opacity }: HeroBackgroundProps) {
         sizes="100vw"
         loading="eager"
         fetchPriority="high"
+        unoptimized
         style={{
           opacity,
           objectPosition: "center",

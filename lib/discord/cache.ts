@@ -3,6 +3,7 @@ import {
   Client,
   GatewayIntentBits,
   GuildScheduledEventStatus,
+  Options,
   type Guild,
   type GuildMember,
   type PartialGuildMember,
@@ -48,6 +49,7 @@ function createEmptyCache(): SiteCache {
     events: [],
     hasUpcomingEvent: false,
     team: [],
+    botCount: 0,
     profiles: new Map(),
     partners: [],
   };
@@ -67,21 +69,31 @@ export async function startDiscord(): Promise<void> {
       GatewayIntentBits.GuildVoiceStates,
       GatewayIntentBits.GuildScheduledEvents,
     ],
+    makeCache: Options.cacheWithLimits({
+      ...Options.DefaultMakeCacheSettings,
+      GuildMemberManager: {
+        maxSize: 0,
+        keepOverLimit: (member) => member.roles.cache.has(STAFF_ROLE_ID),
+      },
+    }),
   });
   g.client = client;
 
   client.once("clientReady", async () => {
     console.log(`[discord] Logged in as ${client.user?.tag}`);
-    try {
-      const guild = getGuild();
-      if (guild) await guild.members.fetch();
-    } catch (error) {
-      console.error("[discord] Initial member fetch failed:", error);
-    }
-    await refresh();
+    await refresh({ fullTeamSync: true });
     if (!g.interval) {
       g.interval = setInterval(() => void refresh(), REFRESH_INTERVAL_MS);
     }
+  });
+
+  client.on("shardReady", () => {
+    if (!g.cache?.ready) return;
+    void refreshTeam({ fullSync: true })
+      .then(() => refreshTeamProfiles())
+      .catch((error) =>
+        console.error("[discord] Staff resync after reconnect failed:", error)
+      );
   });
 
   client.on("guildMemberUpdate", (oldMember, newMember) => {
@@ -179,13 +191,17 @@ async function buildTeamMemberView(
   };
 }
 
-async function refreshTeam(): Promise<void> {
+async function refreshTeam(options: { fullSync?: boolean } = {}): Promise<void> {
   const g = getAgcGlobal();
   const guild = getGuild();
   const cache = g.cache;
   if (!guild || !cache || g.refreshInFlight) return;
   g.refreshInFlight = true;
   try {
+    if (options.fullSync) {
+      const allMembers = await guild.members.fetch();
+      cache.botCount = allMembers.filter((member) => member.user.bot).size;
+    }
     const members = buildTeamList(guild);
     const team: TeamMemberView[] = [];
     for (const member of members) {
@@ -262,7 +278,7 @@ export async function refreshDbTexts(): Promise<void> {
   cache.db.todayJoins = (await getTodayJoins()) ?? "0";
 }
 
-async function refresh(): Promise<void> {
+async function refresh(options: { fullTeamSync?: boolean } = {}): Promise<void> {
   const g = getAgcGlobal();
   const cache = g.cache;
   if (!cache) return;
@@ -273,7 +289,7 @@ async function refresh(): Promise<void> {
     console.error("[refresh] DB texts failed:", error);
   }
   try {
-    await refreshTeam();
+    await refreshTeam({ fullSync: options.fullTeamSync });
     await refreshTeamProfiles();
   } catch (error) {
     console.error("[refresh] Team failed:", error);
@@ -320,7 +336,7 @@ export function getSnapshot(): Snapshot {
         }) ?? "",
       vanityCode: guild.vanityURLCode ?? "",
       memberCount: guild.memberCount,
-      botCount: guild.members.cache.filter((m) => m.user.bot).size,
+      botCount: cache.botCount,
       boostCount: guild.premiumSubscriptionCount ?? 0,
       serverAge: `${ageDays} Tage`,
       voiceUsers: guild.voiceStates.cache.filter((vs) => vs.channelId !== null)

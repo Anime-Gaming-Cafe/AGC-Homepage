@@ -34,6 +34,7 @@ export function TeamFlipCard({
                 height={400}
                 sizes="(max-width: 768px) 100vw, 400px"
                 loading="lazy"
+                unoptimized
               />
             </div>
             <div className="user-imagia">
@@ -44,6 +45,7 @@ export function TeamFlipCard({
                 width={128}
                 height={128}
                 loading="lazy"
+                unoptimized
               />
             </div>
             <div className="content-imagia">
