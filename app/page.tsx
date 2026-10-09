@@ -66,6 +66,11 @@ export default async function HomePage() {
   return (
     <DrawerProvider>
       <JsonLd iconUrl={guild.iconUrl} description={cache.db.pageDescription} />
+      <link
+        rel="discord:component-embed"
+        type="application/json"
+        href={`${CANONICAL_URL}/discord-embed.json`}
+      />
       <OffCanvasNav vanityCode={guild.vanityCode} variant="home" />
       <Navbar
         iconUrl={guild.iconUrl}
