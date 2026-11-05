@@ -12,9 +12,13 @@ declare module "next-auth" {
   }
 }
 
+// Discord sends `iss` on the OAuth callback; without this Auth.js compares it to its authjs.dev placeholder
+const DISCORD_ISSUER = "https://discord.com";
+
 export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [
     Discord({
+      issuer: DISCORD_ISSUER,
       clientId: process.env.AUTH_DISCORD_ID,
       clientSecret: process.env.AUTH_DISCORD_SECRET,
       authorization: { params: { scope: "identify" } },
